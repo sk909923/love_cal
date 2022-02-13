@@ -159,7 +159,7 @@
                                                 </div>
                                         </div>
                                     </div>
-                                        <button type="button" id="submit" name="submit" onclick="submit3()">Find Your Partner</button>
+                                        <a href=# id=test> <button type="button" id="submit" name="submit">Find Your Partner</button></a>
 
                                     </form>
 
@@ -373,14 +373,17 @@ function calculate() {
 
 
 
-function submit3(){
-    calculate();
-    var name1=$('#first_name').val();
-    var name2=$('#crush_name').val();
-    var age1=$('#age').val();
-    var age2=$('#age-two').val();
-    var relation=$('#relation').val();
-    var percent=$('#percent').val();
+$(function() {
+          $('a#test').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/',
+                function(data) {
+              console.log(data)
+              alert(data)
+            });
+            return false;
+          });
+
      $.ajax({
       type: 'POST',
       url: "backend/items/create.php",
