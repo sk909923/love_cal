@@ -112,20 +112,20 @@
                                         <p id="warning" class="text-danger"></p>
                                         <h1 id="result" class="text-center"></h1>
                                         <input type="hidden" name="percent" id="percent">
-                                    <form class="banner-form">
+                                    <form id= "form_data" class="banner-form" method="post">
                                          <div class="age">
                                             <label for="first_name" class="left">Your Name</label>
-                                            <input class="right" type="text" name="names" id="first_name" placeholder="Full Name..">
+                                            <input class="right" type="text" name="nameone" id="first_name" placeholder="Full Name..">
                                         </div>
                                         <div class="age">
                                             <label for="crush_name" class="left">Loved One</label>
-                                            <input class="right" type="text" name="names" id="crush_name" placeholder="Full Name..">
+                                            <input class="right" type="text" name="nametwo" id="crush_name" placeholder="Full Name..">
                                         </div>
                                         <div class="age">
                                             <label for="age" class="left">Age</label>
                                             <div class="right d-flex justify-content-between">
                                                 <div class="custom-select">
-                                                    <select name="age-start" id="age">
+                                                    <select name="ageone" id="age">
                                                          <option selected disabled>Your Age</option>
                                                         {% for i in range(1,101) %}
                                                         <option value="{{i}}">{{i}}</option>
@@ -134,7 +134,7 @@
                                                 </div>
 
                                                 <div class="custom-select">
-                                                    <select name="age-end" id="age-two">
+                                                    <select name="agetwo" id="age-two">
                                                         <option selected disabled>Their Age</option>
                                                         {% for i in range(1,101) %}
                                                         <option value="{{i}}">{{i}}</option>
@@ -149,7 +149,7 @@
                                              <label for="age" class="left">Relationship</label>
                                             <div class="right">
                                                 <div class="custom-select">
-                                                    <select name="relation" id="relation">
+                                                    <select name="relationship" id="relation">
                                                         <option selected disabled>Relationship Status</option>
                                                         <option value="1">Love</option>
                                                         <option value="2">Bestiee</option>
@@ -159,10 +159,9 @@
                                                 </div>
                                         </div>
                                     </div>
-                                        <a href=# id=test> <button type="button" id="submit" name="submit">Find Your Partner</button></a>
-
+                                        <button type="submit" id="submit" name="submit">Find Your Partner</button>
                                     </form>
-
+                                        <p id="response"></p>
                                 </div>
                             </div>
                         </div>
@@ -296,105 +295,10 @@
     <script src="{{ url_for('static',filename='assets/js/wow.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/isotope.pkgd.min.js') }}"></script>
     <script src="{{ url_for('static',filename='assets/js/functions.js') }}"></script>
-
-    <script type="text/javascript">
-   function love(array) {
-        var hold = [],
-                result = [],
-                newArray;
-        if (array.length > 2) {
-                newArray = array.map(function(item, index, array) {
-                        return item + array[index + 1];
-                });
-                newArray.forEach(function(item) {
-                        if (typeof item === "number" && !isNaN(item)) {
-                                if (item < 10) {
-                                        hold.push(item);
-                                } else if (item > 9) {
-                                        console.log('Splitting' + item + " into " + item.toString()[0] + " and " + item.toString()[1]);
-                                        hold.push(parseInt(item.toString()[0]));
-                                        hold.push(parseInt(item.toString()[1]));
-                                }
-                        } else {
-                                console.log("failed number check: " + item);
-                        }
-                });
-                love(hold);
-        } else {
-                document.getElementById('result').textContent = array[0] + "" + array[1] + "%";
-                var result = array[0] + "" + array[1];
-                $('#percent').val(result);
-
-        }
-}
-
-function calculate() {
-        var inputs = document.getElementsByName('names'),
-                // loves = ["l", "o", "v", "e", "s"],
-                // loves = ["o", "t", "h", "e", "r","s"],
-                countArray = [],
-                count,
-                names,
-                jointNames;
-        var rel = $('#relation').val();
-        if(rel == 1){
-            var loves = ["l", "o", "v", "e", "s"];
-        }
-        if(rel == 2){
-            var loves = ["b", "e", "s", "t", "i", "e"];
-        }
-        if(rel == 3){
-            var loves = ["f", "r", "i", "e", "n", "d"];
-        }
-        if(rel == 4){
-            var loves = ["o", "t", "h", "e", "r", "s"];
-        }
-        document.getElementById('warning').textContent = "";
-        if (!inputs[0].value || !inputs[1].value) {
-                document.getElementById('warning').textContent = "Please enter both names.";
-        } else {
-                names = "" + inputs[0].value + "" + inputs[1].value + "";
-                jointNames = names.toLowerCase();
-                countArray = loves.map(function(item) {
-                        count = 0;
-                        for (var i = 0; i < jointNames.length; i += 1) {
-                                if (item === jointNames[i]) {
-                                        count += 1;
-                                }
-                        }
-                        return count;
-                });
-                love(countArray);
-        }
-}
+    <script src="{{ url_for('static',filename='assets/js/custom.js') }}"></script>
 
 
 
-
-
-
-$(function() {
-          $('a#test').on('click', function(e) {
-            e.preventDefault()
-            $.getJSON('/',
-                function(data) {
-              console.log(data)
-              alert(data)
-            });
-            return false;
-          });
-
-     $.ajax({
-      type: 'POST',
-      url: "backend/items/create.php",
-      data:JSON.stringify({"nameone": name1,"nametwo": name2,"ageone": age1,"agetwo": age2,"percentage": percent,"relationship": relation}),
-      dataType: "JSON",
-      success: function(resultData) {
-        alert("Save Complete")
-    }
-        });
-}
-    </script>
 </body>
 
 </html>
